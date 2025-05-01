@@ -1,0 +1,62 @@
+{
+  "tasks": {
+    "title": "Feladatok",
+    "newTask": "Új feladat",
+    "addTask": "Feladat hozzáadása",
+    "noTasks": "Nincs feladat. Adj hozzá egyet!",
+    "markComplete": "Készre jelölés",
+    "markPending": "Visszaállítás függőre",
+    "edit": "Szerkesztés",
+    "save": "Mentés",
+    "saving": "Mentés...",
+    "cancel": "Mégse",
+    "delete": "Törlés",
+    "back": "Vissza",
+    "noDescription": "Nincs leírás megadva.",
+    "notFound": "Feladat nem található vagy betöltés alatt...",
+    "loading": "Betöltés...",
+    "error": "Hiba történt!"
+
+  },
+  "form": {
+    "title": "Cím",
+    "description": "Leírás",
+    "descriptionOptional": "Leírás (opcionális)",
+    "titleRequired": "A cím nem lehet üres",
+    "addDetails": "Adj hozzá részleteket...",
+    "whatToDo": "Mi a teendő?",
+    "dueDate": "Határidő",
+    "dateFormat": "éééé-hh-nn"
+  },
+  "menu": {
+    "menuTitle": "Menü",
+    "tasks": "Feladatok",
+    "profile": "Profil",
+    "settings": "Beállítások",
+    "about": "Névjegy"
+  },
+  "errors": {
+    "saveFailed": "Mentés sikertelen. Próbáld újra.",
+    "loadFailed": "Feladatok betöltése sikertelen. Kérjük, próbáld újra később.",
+    "emptyTitle": "A cím nem lehet üres.",
+    "editFailed": "Mentés sikertelen: "
+  },
+  "settings": {
+    "language": "Nyelv",
+    "selectLanguage": "Válaszd ki a preferált nyelvedet:",
+    "theme": "Megjelenés",
+    "darkMode": "Sötét Mód",
+    "toggleDarkMode": "Sötét mód kapcsolása"
+  },
+  "about": {
+    "mainText": "TaskFlow Alkalmazás",
+    "version": "Verzió: 1.0.0"
+  },
+  "profile": {
+    "placeholderText": "Profil tartalma majd ide jön"
+  },
+  "tasklist": {
+    "newTask": "Új feladat",
+    "noTask": "Nincs feladat, hozz létre egy újat!"
+  }
+}

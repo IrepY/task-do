@@ -1,0 +1,92 @@
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.fade-enter-active,
+.fade-exit-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.fade-buttons-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-buttons-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 600ms, transform 600ms;
+}
+
+.fade-buttons-exit {
+  opacity: 1;
+}
+
+.fade-buttons-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 600ms, transform 600ms;
+}
+
+/* Add these styles to ensure proper height */
+.flex-col, .flex-row {
+  min-height: 0;
+}
+
+.flex-1 {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* Make sure task list scrolling works properly */
+.overflow-y-auto {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  min-height: 0;
+}
+
+/* Add padding at the bottom of lists for better visual appearance and scrolling */
+.space-y-3 {
+  padding-bottom: 1rem; /* Gives more space at the bottom when scrolling */
+}
+
+.h-full {
+  height: 100%;
+}
+
+.menu-slide-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.menu-slide-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms cubic-bezier(0.4,0,0.2,1), opacity 300ms cubic-bezier(0.4,0,0.2,1);
+}
+.menu-slide-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+.menu-slide-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 300ms cubic-bezier(0.4,0,0.2,1), opacity 300ms cubic-bezier(0.4,0,0.2,1);
+}

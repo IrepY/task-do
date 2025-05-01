@@ -1,0 +1,65 @@
+{
+  "tasks": {
+    "title": "Tasks",
+    "newTask": "New Task",
+    "addTask": "Add Task",
+    "noTasks": "No tasks. Add one!",
+    "markComplete": "Complete",
+    "markPending": "Mark Pending",
+    "edit": "Edit",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "back": "Back",
+    "noDescription": "No description provided.",
+    "notFound": "Task not found or loading...",
+    "loading": "Loading...",
+    "error": "Error"
+
+
+  },
+  "form": {
+    "title": "Title",
+    "description": "Description",
+    "descriptionOptional": "Description (optional)",
+    "titleRequired": "Title cannot be empty",
+    "addDetails": "Add details...",
+    "whatToDo": "What needs to be done?",
+    "dueDate": "Due Date",
+    "dateFormat": "yyyy-mm-dd"
+  },
+  "menu": {
+    "menuTitle": "Menu",
+    "tasks": "Tasks",
+    "profile": "Profile",
+    "settings": "Settings",
+    "about": "About",
+    "expand": "Expand menu",
+    "collapse": "Collapse menu"
+  },
+  "errors": {
+    "saveFailed": "Save failed. Try again.",
+    "loadFailed": "Failed to load tasks. Please try again later.",
+    "emptyTitle": "The title cannot be empty.",
+    "editFailed": "Edit failed: "
+  },
+  "settings": {
+    "language": "Language",
+    "selectLanguage": "Select your preferred language:",
+    "theme": "Appearance",
+    "darkMode": "Dark Mode",
+    "toggleDarkMode": "Toggle Dark Mode"
+  },
+  "about": {
+    "mainText": "TaskFlow Application",
+    "version": "Version: 1.0.0"
+  },
+  "profile": {
+    "placeholderText": "Profile content will go here"
+  },
+  "tasklist": {
+    "newTask": "New Task",
+    "noTask": "No tasks. Create a new one!"
+  }
+}

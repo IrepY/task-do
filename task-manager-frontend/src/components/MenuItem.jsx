@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 function MenuItem({
   id,
@@ -43,7 +43,7 @@ function MenuItem({
         </span>
       )}
     </button>
-  );
+  )
 }
 
 MenuItem.propTypes = {
@@ -65,6 +65,6 @@ MenuItem.propTypes = {
   textAnimationBase: PropTypes.string.isRequired,
   textAnimationCollapsed: PropTypes.string.isRequired,
   textAnimationExpanded: PropTypes.string.isRequired,
-};
+}
 
-export default MenuItem;
+export default MenuItem

@@ -1,18 +1,7 @@
-// Apply dark mode class if needed (before everything else)
-if (typeof window !== "undefined") {
-  const savedTheme = localStorage.getItem('theme')
-  if (savedTheme === 'dark') {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-}
-
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
-// Toggle Switch Component
 const ThemeToggle = ({ isEnabled, onToggle }) => {
   const { t } = useTranslation()
   return (
@@ -31,8 +20,8 @@ const ThemeToggle = ({ isEnabled, onToggle }) => {
         }`}
       />
     </button>
-  );
-};
+  )
+}
 
 ThemeToggle.propTypes = {
   isEnabled: PropTypes.bool.isRequired,
@@ -60,7 +49,7 @@ function SettingsView({ isDesktop }) {
   const changeLanguage = (language) => {
     i18n.changeLanguage(language)
     localStorage.setItem('language', language)
-  };
+  }
 
   const toggleDarkMode = () => {
     setIsDarkMode(prevMode => !prevMode);

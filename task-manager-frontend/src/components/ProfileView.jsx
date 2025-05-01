@@ -15,7 +15,7 @@ function ProfileView({ isDesktop }) {
         <p>{t('profile.placeholderText')}</p>
       </div>
     </div>
-  );
+  )
 }
 
 ProfileView.propTypes = {

@@ -1,18 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
-import { CSSTransition, TransitionGroup, SwitchTransition } from 'react-transition-group';
-import TaskForm from "./components/TaskForm";
-import TaskList from "./components/TaskList";
-import TaskDetailView from "./components/TaskDetailView";
-import MenuPanel from "./components/MenuPanel";
-import apiService from "./services/apiService";
-import ProfileView from "./components/ProfileView";
-import SettingsView from "./components/SettingsView";
-import AboutView from "./components/AboutView";
-import useMediaQuery from "./hooks/useMediaQuery";
-import './transitions.css';
-import { useTranslation } from "react-i18next";
+import { useEffect, useState, useCallback } from "react"
+import { CSSTransition, TransitionGroup, SwitchTransition } from 'react-transition-group'
+import TaskForm from "./components/TaskForm"
+import TaskList from "./components/TaskList"
+import TaskDetailView from "./components/TaskDetailView"
+import MenuPanel from "./components/MenuPanel"
+import apiService from "./services/apiService"
+import ProfileView from "./components/ProfileView"
+import SettingsView from "./components/SettingsView"
+import AboutView from "./components/AboutView"
+import useMediaQuery from "./hooks/useMediaQuery"
+import './transitions.css'
+import { useTranslation } from "react-i18next"
 
-// Define transition duration as a constant
 const VIEW_TRANSITION_DURATION = 300;
 const BUTTON_TRANSITION_DURATION = 200;
 const DELETE_ANIMATION_DURATION = 300;
@@ -25,224 +24,207 @@ const getTitleForView = (view, isDesktop, t) => {
     profile: t('menu.profile'),
     settings: t('menu.settings'),
     about: t('menu.about'),
-  };
+  }
   return titles[view] || 'TaskFlow'
-};
+}
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [submittingTask, setSubmittingTask] = useState(false);
-  const [deletingTaskId, setDeletingTaskId] = useState(null); // ID of task being visually removed
-  const [pendingDeleteId, setPendingDeleteId] = useState(null); // ID of task whose deletion is pending API confirmation
-  const [togglingTaskId, setTogglingTaskId] = useState(null);
-  const [editingTaskIdOp, setEditingTaskIdOp] = useState(null);
-  const [newlyAddedTaskId, setNewlyAddedTaskId] = useState(null);
-  const [selectedTaskId, setSelectedTaskId] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeView, setActiveView] = useState('list');
+  const [tasks, setTasks] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [submittingTask, setSubmittingTask] = useState(false)
+  const [deletingTaskId, setDeletingTaskId] = useState(null)
+  const [pendingDeleteId, setPendingDeleteId] = useState(null)
+  const [togglingTaskId, setTogglingTaskId] = useState(null)
+  const [editingTaskIdOp, setEditingTaskIdOp] = useState(null)
+  const [newlyAddedTaskId, setNewlyAddedTaskId] = useState(null)
+  const [selectedTaskId, setSelectedTaskId] = useState(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [activeView, setActiveView] = useState('list')
 
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 768px)')
 
   const fetchTasks = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const data = await apiService.getTasks();
-      setTasks(data);
+      const data = await apiService.getTasks()
+      setTasks(data)
     } catch (err) {
-      setError(err.message || "Failed to load tasks. Please try again later.");
+      setError(err.message || "Failed to load tasks. Please try again later.")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
+    fetchTasks()
+  }, [fetchTasks])
 
   const handleTaskSelect = useCallback((taskId) => {
-    setSelectedTaskId(taskId);
-    setActiveView('detail');
-  }, []);
+    setSelectedTaskId(taskId)
+    setActiveView('detail')
+  }, [])
 
   const handleCloseTaskDetail = useCallback(() => {
-    setSelectedTaskId(null);
-    setActiveView('list');
-  }, []);
+    setSelectedTaskId(null)
+    setActiveView('list')
+  }, [])
 
   const handleShowAddTask = useCallback(() => {
-    setSelectedTaskId(null); // Ensure no task is selected when showing add form
-    setActiveView('add');
-  }, []);
+    setSelectedTaskId(null)
+    setActiveView('add')
+  }, [])
 
   const handleHideAddTask = useCallback(() => {
-    setActiveView('list');
-  }, []);
+    setActiveView('list')
+  }, [])
 
   const closeMenu = useCallback(() => {
     if (!isDesktop) {
-      setIsMenuOpen(false);
+      setIsMenuOpen(false)
     }
-  }, [isDesktop]);
+  }, [isDesktop])
 
   const handleMenuItemSelect = useCallback((itemKey) => {
-    setSelectedTaskId(null); // Clear selected task when changing main view
-    setActiveView(itemKey);
+    setSelectedTaskId(null)
+    setActiveView(itemKey)
     if (!isDesktop) {
-      closeMenu();
+      closeMenu()
     }
   }, [closeMenu, isDesktop]);
 
   const toggleMenu = useCallback(() => {
-    setIsMenuOpen(prev => !prev);
-  }, []);
+    setIsMenuOpen(prev => !prev)
+  }, [])
 
   const handleGoHome = useCallback(() => {
-    setSelectedTaskId(null);
-    setActiveView('list');
-  }, []);
+    setSelectedTaskId(null)
+    setActiveView('list')
+  }, [])
 
   const addTask = async (title, description, due_date) => {
-    setSubmittingTask(true);
-    setError(null);
-    setNewlyAddedTaskId(null);
+    setSubmittingTask(true)
+    setError(null)
+    setNewlyAddedTaskId(null)
     try {
-      const newTask = await apiService.addTask({ title, description, due_date });
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      setNewlyAddedTaskId(newTask.id);
-      setActiveView('list'); // Switch back to list view after adding
+      const newTask = await apiService.addTask({ title, description, due_date })
+      setTasks((prevTasks) => [...prevTasks, newTask])
+      setNewlyAddedTaskId(newTask.id)
+      setActiveView('list')
 
-      // Reset the highlight after animation
       setTimeout(() => {
-        setNewlyAddedTaskId(null);
-      }, 500); // Duration for highlight effect
+        setNewlyAddedTaskId(null)
+      }, 500)
     } catch (err) {
-      setError(err.message || "Failed to add task. Please try again.");
+      setError(err.message || "Failed to add task. Please try again.")
     } finally {
-      setSubmittingTask(false);
+      setSubmittingTask(false)
     }
-  };
+  }
 
-  // Improved deleteTask with immediate optimistic update
   const deleteTask = useCallback(async (id) => {
-    if (pendingDeleteId === id || deletingTaskId === id) return; // Prevent double delete
+    if (pendingDeleteId === id || deletingTaskId === id) return
 
-    const originalTasks = [...tasks];
-    setDeletingTaskId(id); // Start visual removal animation
-    setPendingDeleteId(id); // Mark as pending API deletion
-    setError(null);
+    const originalTasks = [...tasks]
+    setDeletingTaskId(id)
+    setPendingDeleteId(id)
+    setError(null)
 
-    // If the task being deleted is currently selected, navigate back to the list
     if (selectedTaskId === id) {
-      setSelectedTaskId(null);
-      setActiveView('list');
+      setSelectedTaskId(null)
+      setActiveView('list')
     }
 
-    // Wait for animation to complete before removing from state
     setTimeout(() => {
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-      setDeletingTaskId(null); // Animation finished
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id))
+      setDeletingTaskId(null)
 
-      // Perform API call after visual removal
       apiService.deleteTask(id)
         .catch((err) => {
-          console.error("Failed to delete task:", err);
-          setError(err.message || "Failed to delete task. Reverting changes.");
-          // Revert state if API call fails
-          setTasks(originalTasks);
+          console.error("Failed to delete task:", err)
+          setError(err.message || "Failed to delete task. Reverting changes.")
+          setTasks(originalTasks)
         })
         .finally(() => {
-          // Clear pending state regardless of success or failure
-          setPendingDeleteId((currentPendingId) => (currentPendingId === id ? null : currentPendingId));
+          setPendingDeleteId((currentPendingId) => (currentPendingId === id ? null : currentPendingId))
         });
-    }, DELETE_ANIMATION_DURATION); // Use constant for timeout
+    }, DELETE_ANIMATION_DURATION)
 
-  }, [tasks, selectedTaskId, pendingDeleteId, deletingTaskId]); // Added dependencies
+  }, [tasks, selectedTaskId, pendingDeleteId, deletingTaskId])
 
   const toggleTask = async (id, completed) => {
-    if (togglingTaskId) return;
+    if (togglingTaskId) return
 
-    const originalTasks = [...tasks];
-    setTogglingTaskId(id);
-    setError(null);
+    const originalTasks = [...tasks]
+    setTogglingTaskId(id)
+    setError(null)
 
-    // Optimistic UI update
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === id ? { ...task, completed } : task
       )
-    );
+    )
 
     try {
-      await apiService.updateTask(id, { completed });
+      await apiService.updateTask(id, { completed })
     } catch (err) {
-      setError(err.message || "Failed to update task status.");
-      setTasks(originalTasks); // Revert on error
+      setError(err.message || "Failed to update task status.")
+      setTasks(originalTasks)
     } finally {
-      setTogglingTaskId(null);
+      setTogglingTaskId(null)
     }
-  };
+  }
 
   const editTask = async (id, title, description, due_date) => {
     if (editingTaskIdOp) return;
 
-    const originalTasks = [...tasks];
-    setEditingTaskIdOp(id);
-    setError(null);
+    const originalTasks = [...tasks]
+    setEditingTaskIdOp(id)
+    setError(null)
 
-    // Optimistic UI update (update immediately for responsiveness)
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === id ? { ...task, title, description, due_date } : task
       )
-    );
+    )
 
     try {
-      // Fetch the updated task from the API to ensure consistency
       const updatedTask = await apiService.updateTask(id, { title, description, due_date });
-      // Update state with the confirmed data from the server
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task.id === id ? updatedTask : task))
-      );
-      // If the edited task was the selected one, keep the detail view open
-      // setActiveView('detail'); // No need to change view unless desired
+      )
     } catch (err) {
-      setError(err.message || "Failed to edit task.");
-      setTasks(originalTasks); // Revert on error
+      setError(err.message || "Failed to edit task.")
+      setTasks(originalTasks)
     } finally {
-      setEditingTaskIdOp(null);
+      setEditingTaskIdOp(null)
     }
-  };
+  }
 
-  const selectedTask = selectedTaskId ? tasks.find(task => task.id === selectedTaskId) : null;
-  const isSelectedTaskSaving = editingTaskIdOp === selectedTaskId;
+  const selectedTask = selectedTaskId ? tasks.find(task => task.id === selectedTaskId) : null
+  const isSelectedTaskSaving = editingTaskIdOp === selectedTaskId
 
-  const { t } = useTranslation();
-  // Pass only necessary arguments to getTitleForView
+  const { t } = useTranslation()
   const currentTitle = getTitleForView(activeView, isDesktop, t);
-  const currentViewKey = activeView === 'detail' ? `detail-${selectedTaskId}` : activeView;
+  const currentViewKey = activeView === 'detail' ? `detail-${selectedTaskId}` : activeView
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl mx-auto">
-        {/* Use h-[95vh] or similar for mobile to avoid full screen cut-off issues */}
         <div className={`bg-white dark:bg-gray-900 rounded-3xl shadow-2xl flex ${isDesktop ? 'flex-row h-[600px]' : 'flex-col h-[90vh] sm:h-[95vh]'} overflow-hidden relative`}>
 
-          {/* Desktop Layout */}
           {isDesktop && (
             <>
               <MenuPanel
                 isOpen={isMenuOpen}
-                onClose={toggleMenu} // Can just use toggleMenu directly if it only closes
+                onClose={toggleMenu}
                 selectedItem={activeView}
                 onSelectItem={handleMenuItemSelect}
                 isDesktop={isDesktop}
               />
 
               <div className="flex-grow bg-gray-50 dark:bg-gray-800 p-0 flex flex-col relative">
-                {/* Desktop Header */}
                 <div className="p-4 sm:p-6 flex justify-between items-center mb-0 flex-shrink-0 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
                   <button
                     onClick={toggleMenu}
@@ -259,10 +241,9 @@ function App() {
                   <h1 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 text-center truncate px-4 flex-grow">
                     {currentTitle}
                   </h1>
-                   <div className="w-6 h-6"></div> {/* Placeholder for alignment */}
+                   <div className="w-6 h-6"></div>
                 </div>
 
-                {/* Error Display */}
                 {error && (
                   <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative m-6 mb-0 flex-shrink-0" role="alert">
                     <strong className="font-bold">{t('tasks.error')}</strong>
@@ -270,7 +251,6 @@ function App() {
                   </div>
                 )}
 
-                {/* Main Content Area (Desktop) */}
                 <div className={`flex-grow relative overflow-hidden`}>
                   {loading && activeView === 'list' ? (
                     <div className="absolute inset-0 flex items-center justify-center text-gray-500 p-6">
@@ -285,9 +265,7 @@ function App() {
                           classNames="fade"
                           unmountOnExit
                         >
-                          {/* Container div for positioning within CSSTransition */}
                           <div className="absolute inset-0">
-                            {/* Conditional Rendering based on activeView */}
                             {(activeView === 'list') && (
                               <div className={`flex flex-col h-full bg-gray-50 dark:bg-gray-800`}>
                                 <div className="flex justify-end items-center mb-0 mr-4 sm:mr-6 py-4 sm:py-6 flex-shrink-0">
@@ -313,10 +291,10 @@ function App() {
                                     onToggle={toggleTask}
                                     onEdit={editTask}
                                     onTaskSelect={handleTaskSelect}
-                                    deletingTaskId={deletingTaskId} // Pass the visual deleting ID
+                                    deletingTaskId={deletingTaskId}
                                     togglingTaskId={togglingTaskId}
                                     newlyAddedTaskId={newlyAddedTaskId}
-                                    isMenuOpen={isMenuOpen} // Pass menu state if needed by TaskList layout
+                                    isMenuOpen={isMenuOpen} 
                                   />
                                 </div>
                               </div>
@@ -368,16 +346,13 @@ function App() {
             </>
           )}
 
-          {/* Mobile Layout */}
           {!isDesktop && (
             <>
-              {/* Mobile Header */}
               <div className={`w-full flex-shrink-0 bg-gradient-to-b from-indigo-500 to-indigo-400 dark:from-gray-900 dark:to-gray-800 text-white flex flex-col justify-center p-4 py-4 relative shadow-md`}>
                 <div className={`relative h-8 text-center`}>
-                  {/* Title with transition */}
                   <SwitchTransition mode="out-in">
                     <CSSTransition
-                      key={currentTitle} // Animate when title changes
+                      key={currentTitle}
                       timeout={VIEW_TRANSITION_DURATION}
                       classNames="fade"
                     >
@@ -389,9 +364,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Main Content Area (Mobile) */}
               <div className="w-full flex-grow bg-gray-50 dark:bg-gray-800 p-0 flex flex-col relative">
-                {/* Error Display */}
                 {error && (
                   <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative m-4 mb-0 flex-shrink-0" role="alert">
                     <strong className="font-bold">{t('tasks.error')}</strong>
@@ -408,16 +381,14 @@ function App() {
                       <CSSTransition
                         key={currentViewKey}
                         timeout={VIEW_TRANSITION_DURATION}
-                        classNames="fade" // Use appropriate transition (e.g., slide- Hozzáadva)
+                        classNames="fade"
                         unmountOnExit
                       >
                         <div className="absolute inset-0">
-                          {/* Conditional Rendering based on activeView */}
                           {(activeView === 'list') && (
                             <div className={`flex flex-col h-full bg-gray-50 dark:bg-gray-800`}>
-                              {/* Add Task button removed from here for mobile, placed in bottom bar */}
                               <div
-                                className={`flex-grow overflow-y-auto px-4 pt-4 pb-20`} // Added padding-bottom for bottom bar
+                                className={`flex-grow overflow-y-auto px-4 pt-4 pb-20`}
                                 style={{ scrollbarGutter: 'stable' }}
                               >
                                 <TaskList
@@ -426,10 +397,10 @@ function App() {
                                   onToggle={toggleTask}
                                   onEdit={editTask}
                                   onTaskSelect={handleTaskSelect}
-                                  deletingTaskId={deletingTaskId} // Pass visual deleting ID
+                                  deletingTaskId={deletingTaskId}
                                   togglingTaskId={togglingTaskId}
                                   newlyAddedTaskId={newlyAddedTaskId}
-                                  isMenuOpen={false} // Menu isn't persistent on mobile content area
+                                  isMenuOpen={false} 
                                 />
                               </div>
                             </div>
@@ -438,7 +409,7 @@ function App() {
                             <div className={`h-full bg-gray-50 dark:bg-gray-800 overflow-y-auto pb-20`}>
                               <TaskDetailView
                                 task={selectedTask}
-                                onClose={handleCloseTaskDetail} // Back button handled by bottom bar now
+                                onClose={handleCloseTaskDetail}
                                 onEdit={editTask}
                                 onToggle={toggleTask}
                                 isSaving={isSelectedTaskSaving}
@@ -450,7 +421,7 @@ function App() {
                             <div className={`p-4 sm:p-6 h-full flex flex-col bg-gray-50 dark:bg-gray-800 overflow-y-auto pb-20`}>
                               <TaskForm
                                 onAdd={addTask}
-                                onCancel={handleHideAddTask} // Back button handled by bottom bar now
+                                onCancel={handleHideAddTask}
                                 isSubmitting={submittingTask}
                                 isDesktop={isDesktop}
                               />
@@ -551,7 +522,7 @@ function App() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

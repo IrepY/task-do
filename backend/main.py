@@ -7,18 +7,18 @@ import sqlite3
 from datetime import date
 
 class TaskBase(BaseModel):
-    title: str = Field(..., min_length=1, example="Buy groceries")
-    description: Optional[str] = Field(None, example="Milk, Eggs, Bread")
-    due_date: Optional[str] = Field(None, example="2024-06-30") 
+    title: str = Field(..., min_length=1)
+    description: Optional[str] = Field(None)
+    due_date: Optional[str] = Field(None) 
 
 class TaskCreate(TaskBase):
     pass
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=1, example="Buy groceries")
-    description: Optional[str] = Field(None, example="Milk, Eggs, Bread, Butter")
-    completed: Optional[bool] = Field(None, example=True)
-    due_date: Optional[str] = Field(None, example="2024-06-30")
+    title: Optional[str] = Field(None, min_length=1)
+    description: Optional[str] = Field(None)
+    completed: Optional[bool] = Field(None)
+    due_date: Optional[str] = Field(None)
 
 class Task(TaskBase):
     id: int
@@ -52,7 +52,7 @@ def fetch_task_or_404(task_id: int, conn: sqlite3.Connection) -> sqlite3.Row:
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to TaskFlow API!"}
+    return {"message": "Welcome to Task-Do API!"}
 
 @app.get("/tasks", response_model=List[Task])
 def get_tasks():

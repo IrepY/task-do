@@ -5,7 +5,9 @@ A projektemben egy olyan feladat- és időmenedzsment alkalmazást fejlesztek, a
 Alapvető funkciók:
 
 Feladatok létrehozása, szerkesztése, törlése
+
 Feladatokhoz határidő hozzárendelése
+
 Feladatok állapotának módosítása (pl: függőben, kész)
 
 Használt programnyelvek és keretrendszerek:

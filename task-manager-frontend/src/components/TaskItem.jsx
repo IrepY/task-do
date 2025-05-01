@@ -76,7 +76,7 @@ function TaskItem({
     ? "#f0fdf4"
     : "#ffffff";
 
-  const dueDateColor = getDueDateColor(task.due_date); // Use the imported function
+  const dueDateColor = getDueDateColor(task.due_date)
 
   return (
     <div

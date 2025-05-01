@@ -1,15 +1,12 @@
 Feladat- és időmenedzsment webalkalmazás
 
-A projektemben egy olyan feladat- és időmenedzsment alkalmazást fejlesztek, ami a mindennapi teendőket segíti, felvehető feladatokkal, azok rangsorolásával és követésével. A rendszer lehetőséget biztosít feladatok létrehozására, kategorizálására, időbeli ütemezésére, valamint vizuális áttekintésére napi és heti bontásban.
+A projektemben egy olyan feladat- és időmenedzsment alkalmazást fejlesztek, ami a mindennapi teendőket segíti, felvehető feladatokkal, azok követésével. A rendszer lehetőséget biztosít feladatok létrehozására, időbeli ütemezésére, valamint vizuális áttekintésére.
 
 Alapvető funkciók:
 
-Felhasználói regisztráció és bejelentkezés
 Feladatok létrehozása, szerkesztése, törlése
-Feladatokhoz határidő, prioritás és kategória hozzárendelése
-Feladatok állapotának módosítása (pl: függőben, folyamatban, kész)
-Napi és heti nézet
-Alap statisztikák (pl: A héten elvégzett feladatok száma)
+Feladatokhoz határidő hozzárendelése
+Feladatok állapotának módosítása (pl: függőben, kész)
 
 Használt programnyelvek és keretrendszerek:
 

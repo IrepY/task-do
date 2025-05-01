@@ -20,4 +20,4 @@ Telepítési útmutató:
 
 1. Hozzunk létre egy üres mappát valahol a saját gépen.
 2. Futtassuk a mappában az alábbi parancsot:
-   '''asd'''
+   ´´´asd´´´

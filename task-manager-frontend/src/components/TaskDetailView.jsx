@@ -14,7 +14,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
   const [visualCompleted, setVisualCompleted] = useState(task.completed)
   const { t } = useTranslation()
 
-  const containerRef = useRef(null);
+  const containerRef = useRef(null)
 
   const startEdit = useCallback(() => {
     if (!task) return
@@ -42,56 +42,42 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
     if (!task) return
 
     try {
-      await onEdit(task.id, editTitle.trim(), editDescription.trim(), editDueDate || null); // <-- pass due date
+      await onEdit(task.id, editTitle.trim(), editDescription.trim(), editDueDate || null)
       setIsEditing(false)
     } catch (error) {
       console.error(t('errors.editFailed'), error)
       setEditError(t('errors.saveFailed'))
     }
-  }, [onEdit, task, editTitle, editDescription, editDueDate, t]);
+  }, [onEdit, task, editTitle, editDescription, editDueDate, t])
 
   const handleBackClick = useCallback(() => {
     if (isEditing) {
-      cancelEdit();
-      return;
+      cancelEdit()
+      return
     }
-    onClose();
-  }, [isEditing, cancelEdit, onClose]);
+    onClose()
+  }, [isEditing, cancelEdit, onClose])
 
   useEffect(() => {
     if (!isAnimatingToggle) {
-      setVisualCompleted(task.completed);
+      setVisualCompleted(task.completed)
     }
-  }, [task.completed, isAnimatingToggle]);
+  }, [task.completed, isAnimatingToggle])
 
   const handleToggle = useCallback((id, completed) => {
-    if (isAnimatingToggle) return;
+    if (isAnimatingToggle) return
 
-    setIsAnimatingToggle(true);
-    setVisualCompleted(completed);
+    setIsAnimatingToggle(true)
+    setVisualCompleted(completed)
 
     setTimeout(() => {
-      onToggle(id, completed);
+      onToggle(id, completed)
 
       setTimeout(() => {
         setIsAnimatingToggle(false);
-      }, 100);
-    }, 300);
-  }, [onToggle, isAnimatingToggle]);
-
-  if (!task) {
-    return (
-      <div className="p-6 text-center text-gray-500 dark:text-gray-400">
-        Task not found or loading...
-        <button
-          onClick={onClose}
-          className="mt-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 px-4 py-2 rounded font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
-        >
-          Back to List
-        </button>
-      </div>
-    );
-  }
+      }, 100)
+    }, 300)
+  }, [onToggle, isAnimatingToggle])
 
   const ActionButtons = () => (
     <>

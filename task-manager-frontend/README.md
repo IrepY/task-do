@@ -15,3 +15,9 @@ Frontend: React.js + Tailwind CSS
 Adatbázis: SQLite 
 
 Fejlesztői környezet: GitHub, VS Code
+
+Telepítési útmutató:
+
+1. Hozzunk létre egy üres mappát valahol a saját gépen.
+2. Futtassuk a mappában az alábbi parancsot:
+   '''asd'''

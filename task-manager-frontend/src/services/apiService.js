@@ -20,7 +20,6 @@ const apiFetch = async (url, options = {}) => {
   const defaultOptions = {
     headers: {
       "Content-Type": "application/json",
-      // Ide jöhet majd az auth
     },
     ...options,
   }
@@ -29,7 +28,6 @@ const apiFetch = async (url, options = {}) => {
     const response = await fetch(url, defaultOptions)
     return handleResponse(response)
   } catch (error) {
-    // Ha ennyi szart ideírok talán végre rájövök mi a baj
     console.error("API Fetch Error:", error.message)
     console.error("Failed URL:", url)
     console.error("Fetch Options:", defaultOptions)
@@ -43,7 +41,6 @@ const apiService = {
   },
 
   addTask: (taskData) => {
-    // taskData: { title, description, due_date }
     return apiFetch(`${API_BASE_URL}/tasks`, {
       method: "POST",
       body: JSON.stringify(taskData),
@@ -51,7 +48,6 @@ const apiService = {
   },
 
   updateTask: (id, updateData) => {
-    // updateData: { title?, description?, completed?, due_date? }
     return apiFetch(`${API_BASE_URL}/tasks/${id}`, {
       method: "PATCH",
       body: JSON.stringify(updateData),

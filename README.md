@@ -10,6 +10,7 @@ Feladatokhoz határidő hozzárendelése
 
 Feladatok állapotának módosítása (pl: függőben, kész)
 
+
 Használt programnyelvek és keretrendszerek:
 
 Backend: Python és FastAPI

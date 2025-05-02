@@ -5,8 +5,11 @@ A projektemben egy olyan feladat- és időmenedzsment alkalmazást fejlesztek, a
 Alapvető funkciók:
 
 Feladatok létrehozása, szerkesztése, törlése
+
 Feladatokhoz határidő hozzárendelése
+
 Feladatok állapotának módosítása (pl: függőben, kész)
+
 
 Használt programnyelvek és keretrendszerek:
 
@@ -24,7 +27,7 @@ Telepítési útmutató:
 2. Futtassuk a mappában az alábbi parancsot: ```git clone https://github.com/IrepY/task-do/```
 4. Hozzunk létre egy python virtuális környezetet: ```python -m venv venv```
 5. Aktiváljuk a virtuális python környezetet: ```venv/Scripts/activate.bat``` -- Amennyiben a paracs windows környezetben nem fut le, futtassuk kézzel az "activate.bat" fájlt
-6. Lépjünk be a backend mappába: ```cd task-do```
+6. Lépjünk be az alkalmazás mappájába: ```cd task-do```
 7. Telepítsük a 2 szükséges pip modult: ```pip install fastapi, uvicorn```
 8. Lépjünk be a backend mappájába: ```cd backend```
 9. Futtassuk az uvicorn környezetet: ```uvicorn main:app --reload```

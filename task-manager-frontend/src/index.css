@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
-  background-color: transparent;
-}
-
 ::-webkit-scrollbar {
   width: 8px;
   background: #e0e7ff; 
@@ -26,9 +21,4 @@ html.dark ::-webkit-scrollbar {
 }
 html.dark ::-webkit-scrollbar-thumb {
   background: #4b5563; 
-}
-
-html.dark body {
-  @apply text-gray-200;
-  background-color: transparent;
 }

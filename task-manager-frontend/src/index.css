@@ -22,3 +22,40 @@ html.dark ::-webkit-scrollbar {
 html.dark ::-webkit-scrollbar-thumb {
   background: #4b5563; 
 }
+
+:root {
+  --gradient-light: linear-gradient(120deg, #e0e7ff 0%, #7c92ff 100%);
+  --gradient-dark: linear-gradient(120deg, #000000 0%, #0069fd 100%);
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-bg {
+  background-image: var(--gradient-light);
+  background-size: 200% 200%;
+  animation: gradientMove 12s ease-in-out infinite;
+  transition:
+    background-image 0.7s cubic-bezier(0.4,0,0.2,1),
+    background-color 0.4s cubic-bezier(0.4,0,0.2,1),
+    color 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+html.dark .animate-gradient-bg {
+  background-image: var(--gradient-dark);
+}
+
+.app-fade-root {
+  transition:
+    background-color 0.4s cubic-bezier(0.4,0,0.2,1),
+    color 0.4s cubic-bezier(0.4,0,0.2,1);
+}

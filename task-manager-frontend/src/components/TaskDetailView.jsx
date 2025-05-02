@@ -212,7 +212,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
   return (
     <div 
       ref={containerRef}
-      className={`px-4 pt-4 sm:p-6 h-full flex flex-col relative transition-colors duration-300 ease-in-out ${task.completed ? 'bg-green-50 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'} ${!isDesktop ? 'pb-20' : ''}`}
+      className={`px-4 pt-4 sm:p-6 h-full flex flex-col relative transition-colors duration-300 ease-in-out ${task.completed ? 'bg-green-50 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'}`}
     >
       <div className="mb-4 flex justify-between items-center gap-2 flex-shrink-0">
         {isDesktop && (
@@ -363,7 +363,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
       </div>
 
       {!isDesktop && (
-        <div className={`mt-auto flex-shrink-0 flex items-center gap-2 p-4 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300 ease-in-out ${task.completed ? 'bg-green-50 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'}`}>
+        <div className={`mt-auto flex-shrink-0 flex items-center gap-2 py-4 px-4 border-t border-gray-200 dark:border-gray-700 transition-colors duration-300 ease-in-out ${task.completed ? 'bg-green-50 dark:bg-gray-800' : 'bg-gray-50 dark:bg-gray-900'}`}>
           <ActionButtons />
         </div>
       )}

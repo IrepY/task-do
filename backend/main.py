@@ -122,11 +122,12 @@ def update_task(task_id: int, task_update: TaskUpdate):
 def delete_task(task_id: int):
     try:
         with get_connection() as conn:
-            fetch_task_or_404(task_id, conn)
-
             cursor = conn.cursor()
             cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
             conn.commit()
+
+            if cursor.rowcount == 0:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
 
             return None
     except sqlite3.Error as e:

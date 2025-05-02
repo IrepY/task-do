@@ -69,8 +69,13 @@ def create_task(task: TaskBase):
             )
             conn.commit()
             new_task_id = cursor.lastrowid
-            created_task_row = fetch_task_or_404(new_task_id, conn)
-            return Task.model_validate(dict(created_task_row))
+            return Task(
+                id=new_task_id,
+                title=task.title,
+                description=task.description,
+                completed=False,
+                due_date=task.due_date
+            )
     except sqlite3.Error as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error occurred")
 
@@ -108,9 +113,6 @@ def update_task(task_id: int, task_update: TaskUpdate):
             cursor.execute(sql, values)
             conn.commit()
 
-            if cursor.rowcount == 0:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
-
             updated_task_row = fetch_task_or_404(task_id, conn)
             return Task.model_validate(dict(updated_task_row))
     except sqlite3.Error as e:
@@ -126,8 +128,6 @@ def delete_task(task_id: int):
             cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
             conn.commit()
 
-            if cursor.rowcount == 0:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
             return None
     except sqlite3.Error as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error occurred")

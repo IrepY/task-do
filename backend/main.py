@@ -11,9 +11,6 @@ class TaskBase(BaseModel):
     description: Optional[str] = Field(None)
     due_date: Optional[str] = Field(None) 
 
-class TaskCreate(TaskBase):
-    pass
-
 class TaskUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=1)
     description: Optional[str] = Field(None)
@@ -50,10 +47,6 @@ def fetch_task_or_404(task_id: int, conn: sqlite3.Connection) -> sqlite3.Row:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
     return task_row
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to Task-Do API!"}
-
 @app.get("/tasks", response_model=List[Task])
 def get_tasks():
     try:
@@ -66,7 +59,7 @@ def get_tasks():
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error occurred")
 
 @app.post("/tasks", response_model=Task, status_code=status.HTTP_201_CREATED)
-def create_task(task: TaskCreate):
+def create_task(task: TaskBase):
     try:
         with get_connection() as conn:
             cursor = conn.cursor()
@@ -78,8 +71,6 @@ def create_task(task: TaskCreate):
             new_task_id = cursor.lastrowid
             created_task_row = fetch_task_or_404(new_task_id, conn)
             return Task.model_validate(dict(created_task_row))
-    except sqlite3.IntegrityError:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Task data invalid")
     except sqlite3.Error as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error occurred")
 
@@ -137,7 +128,6 @@ def delete_task(task_id: int):
 
             if cursor.rowcount == 0:
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Task with id {task_id} not found")
-
             return None
     except sqlite3.Error as e:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error occurred")

@@ -29,3 +29,4 @@ dist-ssr
 .venv/*
 __pycache__
 venv/*
+backend/tasks.db

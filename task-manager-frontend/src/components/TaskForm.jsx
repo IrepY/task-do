@@ -16,7 +16,7 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
     }
     setError("")
     try {
-      await onAdd(title.trim(), description.trim(), dueDate || null)
+      await onAdd(title.trim(), description.trim(), dueDate)
       setTitle("")
       setDescription("")
       setDueDate("")
@@ -24,7 +24,6 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
   }
 
   const handleCancel = () => {
-    setError("")
     setTitle("")
     setDescription("")
     setDueDate("")
@@ -33,7 +32,7 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
 
   return (
     <form onSubmit={handleSubmit} className={`flex flex-col gap-4 flex-grow ${!isDesktop ? 'pb-20' : ''}`}>
-      {error && <p className="text-red-600 dark:text-red-400 text-sm mb-1 p-2 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded">{error}</p>}
+      {error && <p id="form-error" className="text-red-600 dark:text-red-400 text-sm mb-1 p-2 bg-red-50 dark:bg-red-900 border border-red-300 dark:border-red-700 rounded">{error}</p>}
       <div className="flex flex-col">
          <label htmlFor="new-task-title" className="text-sm mb-1 font-medium text-gray-700 dark:text-gray-300">{t('form.title')}</label>
          <input
@@ -41,11 +40,10 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
             type="text"
             placeholder={t('form.addDetails')}
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             className="rounded-lg px-4 py-2 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-500 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none transition disabled:opacity-70 dark:placeholder-gray-400"
-            required
             disabled={isSubmitting}
-            aria-describedby={error ? "form-error" : undefined}
+            aria-describedby="form-error"
          />
       </div>
       <div className="flex flex-col">
@@ -54,14 +52,14 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
             id="new-task-description"
             placeholder={t('form.whatToDo')}
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={e => setDescription(e.target.value)}
             className="rounded-lg px-4 py-2 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-500 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none transition disabled:opacity-70 resize-none dark:placeholder-gray-400"
             rows={4}
             disabled={isSubmitting}
          />
       </div>
       <div className="flex flex-col">
-        <label htmlFor="new-task-due-date" className="text-sm mb-1 font-medium text-gray-700 dark:text-gray-300">{t('form.dueDate') || "Due Date"}</label>
+        <label htmlFor="new-task-due-date" className="text-sm mb-1 font-medium text-gray-700 dark:text-gray-300">{t('form.dueDate')}</label>
         <input
           id="new-task-due-date"
           type="date"
@@ -71,7 +69,6 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
           disabled={isSubmitting}
         />
       </div>
-      {error && <span id="form-error" className="sr-only">{error}</span>}
       <div className="flex gap-2 mt-auto pt-4">
         <button
           type="submit"

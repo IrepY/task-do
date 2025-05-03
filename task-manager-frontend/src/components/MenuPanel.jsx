@@ -22,8 +22,6 @@ const ICON_PATHS = {
   ),
 }
 
-const BASE_DELAYS = { icon: 50, text: 120, step: 50, textStep: 50 }
-
 const AnimatedTitle = ({ title, isVisible }) => {
   const letters = title.split('')
   return (
@@ -115,7 +113,7 @@ function MenuPanel({
   }
 
   const ids = ['list', 'profile', 'settings', 'about'];
-  const menuItems = ids.map((id) => ({
+  const menuItems = ids.map((id, idx) => ({
       id,
       icon: ICON_PATHS[id],
       label: t(`menu.${id}`),
@@ -126,7 +124,7 @@ function MenuPanel({
       <div className={`flex justify-between items-center mb-4 h-[52px]`}>
         {(isOpen || !isDesktop || wasOpen) && (
           <>
-            <div>
+            <div className="w-48 overflow-hidden">
               <h2 className="text-2xl font-bold whitespace-nowrap">
                   <AnimatedTitle title="Task-Do" isVisible={showTitleAnimation}/>
               </h2>
@@ -160,8 +158,6 @@ function MenuPanel({
               onClick={onSelectItem}
               isOpen={isOpen}
               isDesktop={isDesktop}
-              iconDelay={item.iconDelay}
-              textDelay={item.textDelay}
               baseItemClass={baseItemClass}
               itemLayoutClass={itemLayoutClass}
               getActiveItemClasses={getActiveItemClasses}

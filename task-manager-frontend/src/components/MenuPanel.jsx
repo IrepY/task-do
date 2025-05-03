@@ -10,7 +10,12 @@ const ICON_PATHS = {
     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
   ),
   settings: (
-    <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+    <>
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" fill="none"/>
+      <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06A1.65 1.65 0 0015 19.4a1.65 1.65 0 00-1.5 1.1V21a2 2 0 01-4 0v-.1A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82-.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.1-1.5H3a2 2 0 010-4h.1A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001.5-1.1V3a2 2 0 014 0v.1A1.65 1.65 0 0015 4.6a1.65 1.65 0 001.82.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9c.36.31.81.5 1.1 1.5H21a2 2 0 010 4h-.1A1.65 1.65 0 0019.4 15z"
+      />
+    </>
   ),
   about: (
     <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -105,17 +110,15 @@ function MenuPanel({
   const getActiveItemClasses = (isActive) => {
     if (!isActive) return ''
     return isDesktop && !isOpen
-      ? 'relative z-10 after:content-[""] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-indigo-700 dark:after:bg-indigo-900 after:rounded-lg after:w-12 after:h-12 after:-z-10'
+      ? 'relative z-10 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-indigo-700 dark:after:bg-indigo-900 after:rounded-lg after:w-12 after:h-12 after:-z-10'
       : "bg-indigo-700 dark:bg-indigo-900 text-white dark:text-indigo-100";
   }
 
   const ids = ['list', 'profile', 'settings', 'about'];
-  const menuItems = ids.map((id, idx) => ({
+  const menuItems = ids.map((id) => ({
       id,
       icon: ICON_PATHS[id],
-      label: t(`menu.${id === 'list' ? 'tasks' : id}`),
-      iconDelay: BASE_DELAYS.icon + idx * BASE_DELAYS.step,
-      textDelay: BASE_DELAYS.text + idx * BASE_DELAYS.textStep,
+      label: t(`menu.${id}`),
     }))
 
   return (
@@ -123,7 +126,7 @@ function MenuPanel({
       <div className={`flex justify-between items-center mb-4 h-[52px]`}>
         {(isOpen || !isDesktop || wasOpen) && (
           <>
-            <div className="w-48 overflow-hidden">
+            <div>
               <h2 className="text-2xl font-bold whitespace-nowrap">
                   <AnimatedTitle title="Task-Do" isVisible={showTitleAnimation}/>
               </h2>

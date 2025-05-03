@@ -31,7 +31,7 @@
   },
   "menu": {
     "menuTitle": "Menu",
-    "tasks": "Tasks",
+    "list": "Tasks",
     "profile": "Profile",
     "settings": "Settings",
     "about": "About",

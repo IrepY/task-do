@@ -20,12 +20,12 @@ function fadeThemeTransition() {
   document.documentElement.classList.add('theme-transition');
   setTimeout(() => {
     document.documentElement.classList.remove('theme-transition');
-  }, 500); // Match the CSS opacity transition duration
+  }, 500);
 }
 
 const getTitleForView = (view, isDesktop, t) => {
   const titles = {
-    list: isDesktop ? t('tasks.title') : t('menu.tasks'),
+    list: isDesktop ? t('tasks.title') : t('menu.list'),
     add: t('tasks.newTask'),
     detail: t('tasks.title'),
     profile: t('menu.profile'),

@@ -338,17 +338,17 @@ function App() {
                                 </div>
                               )}
                               {(activeView === 'profile') && (
-                                <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6`}>
+                                <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6`}>
                                   <ProfileView isDesktop={isDesktop} />
                                 </div>
                               )}
                               {(activeView === 'settings') && (
-                                <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6`}>
+                                <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6`}>
                                   <SettingsView isDesktop={isDesktop} />
                                 </div>
                               )}
                               {(activeView === 'about') && (
-                                <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6`}>
+                                <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6`}>
                                   <AboutView isDesktop={isDesktop} />
                                 </div>
                               )}
@@ -444,17 +444,17 @@ function App() {
                               </div>
                             )}
                             {(activeView === 'profile') && (
-                              <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 overflow-y-auto pb-20`}>
+                              <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6 overflow-y-auto pb-20`}>
                                 <ProfileView isDesktop={isDesktop} />
                               </div>
                             )}
                             {(activeView === 'settings') && (
-                              <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 overflow-y-auto pb-20`}>
+                              <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6 overflow-y-auto pb-20`}>
                                 <SettingsView isDesktop={isDesktop} />
                               </div>
                             )}
                             {(activeView === 'about') && (
-                              <div className={`h-full bg-gray-50 dark:bg-gray-800 p-4 sm:p-6 overflow-y-auto pb-20`}>
+                              <div className={`h-full bg-white dark:bg-gray-900 p-4 sm:p-6 overflow-y-auto pb-20`}>
                                 <AboutView isDesktop={isDesktop} />
                               </div>
                             )}

@@ -5,7 +5,7 @@ function AboutView({ isDesktop }) {
   const { t } = useTranslation()
   
   return (
-    <div>
+    <div className="h-full bg-white dark:bg-gray-900 p-0 flex flex-col">
        {isDesktop && (
           <h2 className="mb-4 text-2xl font-semibold text-gray-700 dark:text-gray-200">{t("menu.profile")}</h2>
        )}

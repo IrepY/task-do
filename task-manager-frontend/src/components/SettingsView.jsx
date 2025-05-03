@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 const ThemeToggle = ({ isEnabled, onToggle }) => {
@@ -21,11 +20,6 @@ const ThemeToggle = ({ isEnabled, onToggle }) => {
       />
     </button>
   )
-}
-
-ThemeToggle.propTypes = {
-  isEnabled: PropTypes.bool.isRequired,
-  onToggle: PropTypes.func.isRequired,
 }
 
 function SettingsView({ isDesktop }) {
@@ -56,7 +50,7 @@ function SettingsView({ isDesktop }) {
   }
 
   return (
-    <div className={`p-4 sm:p-6 h-full flex flex-col ${!isDesktop ? 'pb-20' : ''} text-gray-700 dark:text-gray-300`}>
+    <div className={`p-4 sm:p-6 h-full flex flex-col ${!isDesktop ? 'pb-20' : ''} text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900`}>
        {isDesktop && (
          <div className="mb-6 flex-shrink-0">
           <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 text-left">{t('menu.settings')}</h2>
@@ -64,7 +58,7 @@ function SettingsView({ isDesktop }) {
        )}
 
       <div className="flex-grow space-y-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">{t('settings.language')}</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings.selectLanguage')}</p>
 
@@ -103,7 +97,7 @@ function SettingsView({ isDesktop }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">{t('settings.theme')}</h3>
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings.darkMode')}</p>
@@ -114,10 +108,6 @@ function SettingsView({ isDesktop }) {
       </div>
     </div>
   )
-}
-
-SettingsView.propTypes = {
-  isDesktop: PropTypes.bool.isRequired,
 }
 
 export default SettingsView

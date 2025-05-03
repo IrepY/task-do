@@ -50,25 +50,23 @@ function SettingsView({ isDesktop }) {
   }
 
   return (
-    <div className={`p-4 sm:p-6 h-full flex flex-col ${!isDesktop ? 'pb-20' : ''} text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900`}>
+    <div className={`flex-col text-gray-700 dark:text-gray-300 dark:bg-gray-900`}>
        {isDesktop && (
-         <div className="mb-6 flex-shrink-0">
-          <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200 text-left">{t('menu.settings')}</h2>
-         </div>
+          <h2 className="mb-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">{t('menu.settings')}</h2>
        )}
 
-      <div className="flex-grow space-y-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">{t('settings.language')}</h3>
+      <div className="space-y-6">
+        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('settings.language')}</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('settings.selectLanguage')}</p>
 
           <div className="flex flex-col sm:flex-row gap-3">
             <button
               onClick={() => changeLanguage('en')}
-              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-all ${
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
                 currentLanguage === 'en'
                   ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <span className="font-medium">English</span>
@@ -81,10 +79,10 @@ function SettingsView({ isDesktop }) {
 
             <button
               onClick={() => changeLanguage('hu')}
-              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition-all ${
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
                 currentLanguage === 'hu'
                   ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <span className="font-medium">Magyar</span>
@@ -97,8 +95,8 @@ function SettingsView({ isDesktop }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-3">{t('settings.theme')}</h3>
+        <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('settings.theme')}</h3>
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings.darkMode')}</p>
             <ThemeToggle isEnabled={isDarkMode} onToggle={toggleDarkMode} />

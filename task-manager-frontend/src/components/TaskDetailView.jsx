@@ -3,103 +3,100 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group'
 import { useTranslation } from 'react-i18next'
 import { getDueDateColor } from '../hooks/dateFormatters'
 
+const getBtnClass = (type, isDesktop, visualCompleted) => {
+  const base = isDesktop
+    ? "px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1"
+    : "px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1";
+  if (type === 'toggle') {
+    return isDesktop
+      ? `${base} ${visualCompleted
+          ? "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+          : "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-100 hover:bg-green-200 dark:hover:bg-green-700"}`
+      : `${base} ${visualCompleted
+          ? "bg-gray-500 dark:bg-gray-600 text-white hover:bg-gray-600 dark:hover:bg-gray-500"
+          : "bg-green-500 dark:bg-green-600 text-white hover:bg-green-600 dark:hover:bg-green-500"}`;
+  }
+  if (type === 'edit') {
+    return isDesktop
+      ? `${base} bg-indigo-100 text-indigo-700 dark:bg-indigo-800 dark:text-indigo-100 hover:bg-indigo-200 dark:hover:bg-indigo-700`
+      : `${base} bg-indigo-500 dark:bg-indigo-600 text-white hover:bg-indigo-600 dark:hover:bg-indigo-500`;
+  }
+  return base;
+};
+
+function SaveCancelButtons({ isDesktop, isSaving, onEdit, onCancel, t }) {
+  const iconClass = isDesktop ? "h-4 w-4" : "h-5 w-5";
+  const disabledClass = isSaving ? ' opacity-50 cursor-not-allowed' : '';
+  const btnClass = getBtnClass('', isDesktop);
+
+  const config = [
+    {
+      key: 'save',
+      onClick: onEdit,
+      bg: 'bg-indigo-500 dark:bg-indigo-600 text-white hover:bg-indigo-600 dark:hover:bg-indigo-500',
+      iconD: "M5 13l4 4L19 7",
+      label: isSaving ? t('tasks.saving') : t('tasks.save')
+    },
+    {
+      key: 'cancel',
+      onClick: onCancel,
+      bg: 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-500',
+      iconD: "M6 18L18 6M6 6l12 12",
+      label: t('tasks.cancel')
+    }
+  ];
+
+  return (
+    <div className={`flex gap-2 mt-2${isDesktop ? '' : ' w-full'}`}>
+      {config.map(({ key, onClick, bg, iconD, label }) =>
+        <button
+          key={key}
+          type="button"
+          onClick={onClick}
+          className={`${btnClass} ${bg}${disabledClass}`}
+          disabled={isSaving}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d={iconD} />
+          </svg>
+          <span>{label}</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
 function ActionButtons({
   isDesktop, isEditing, visualCompleted, isAnimatingToggle, isSaving,
   onToggle, onEdit, onCancel, onStartEdit, task, t
 }) {
   if (!task) return null
-
-  if (isDesktop && isEditing) {
-    return (
-      <div className="flex gap-2 mt-2">
-        <button
-          type="button"
-          onClick={onEdit}
-          className={`bg-indigo-500 dark:bg-indigo-600 text-white px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 hover:bg-indigo-600 dark:hover:bg-indigo-500 ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={isSaving}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
-          <span>{isSaving ? t('tasks.saving') : t('tasks.save')}</span>
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className={`bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200 px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 hover:bg-gray-300 dark:hover:bg-gray-500 ${isSaving ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={isSaving}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          <span>{t('tasks.cancel')}</span>
-        </button>
-      </div>
-    )
-  }
-
+  if (isEditing) return <SaveCancelButtons isDesktop={isDesktop} isSaving={isSaving} onEdit={onEdit} onCancel={onCancel} t={t} />;
+  const iconClass = isDesktop ? "h-4 w-4" : "h-5 w-5";
   return (
     <div className={`flex items-center gap-2 ${isDesktop ? '' : 'w-full'}`}>
-      {!isEditing ? (
-        <>
-          <button
-            onClick={() => onToggle(task.id, !visualCompleted)}
-            className={isDesktop
-              ? visualCompleted
-                ? "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1"
-                : "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-100 hover:bg-green-200 dark:hover:bg-green-700 px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1"
-              : visualCompleted
-                ? "bg-gray-500 dark:bg-gray-600 text-white hover:bg-gray-600 dark:hover:bg-gray-500 px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1"
-                : "bg-green-500 dark:bg-green-600 text-white hover:bg-green-600 dark:hover:bg-green-500 px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1"
-            }
-            disabled={isAnimatingToggle}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className={isDesktop ? "h-4 w-4" : "h-5 w-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              {visualCompleted
-                ? <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                : <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              }
-            </svg>
-            <span>{visualCompleted ? t('tasks.markPending') : t('tasks.markComplete')}</span>
-          </button>
-          <button
-            onClick={onStartEdit}
-            className={isDesktop
-              ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-800 dark:text-indigo-100 hover:bg-indigo-200 dark:hover:bg-indigo-700 px-4 py-1.5 rounded font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1"
-              : "bg-indigo-500 dark:bg-indigo-600 text-white hover:bg-indigo-600 dark:hover:bg-indigo-500 px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1"
-            }
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className={isDesktop ? "h-4 w-4" : "h-5 w-5"} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-            <span>{t('tasks.edit')}</span>
-          </button>
-        </>
-      ) : (
-        !isDesktop && (
-          <>
-            <button
-              onClick={onEdit}
-              className="bg-indigo-500 dark:bg-indigo-600 text-white hover:bg-indigo-600 dark:hover:bg-indigo-500 px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1"
-              disabled={isSaving}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-              <span>{isSaving ? t('tasks.saving') : t('tasks.save')}</span>
-            </button>
-            <button
-              onClick={onCancel}
-              className="bg-gray-500 dark:bg-gray-600 text-white hover:bg-gray-600 dark:hover:bg-gray-500 px-4 py-2 rounded-lg font-semibold text-sm transition duration-150 ease-in-out flex items-center justify-center gap-1 flex-1"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-              <span>{t('tasks.cancel')}</span>
-            </button>
-          </>
-        )
-      )}
+      <button
+        onClick={() => onToggle(task.id, !visualCompleted)}
+        className={getBtnClass('toggle', isDesktop, visualCompleted)}
+        disabled={isAnimatingToggle}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          {visualCompleted
+            ? <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            : <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          }
+        </svg>
+        <span>{visualCompleted ? t('tasks.markPending') : t('tasks.markComplete')}</span>
+      </button>
+      <button
+        onClick={onStartEdit}
+        className={getBtnClass('edit', isDesktop)}
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+        </svg>
+        <span>{t('tasks.edit')}</span>
+      </button>
     </div>
   )
 }
@@ -115,17 +112,10 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
   const { t } = useTranslation()
 
   const startEdit = () => {
-    if (!task) return
     setIsEditing(true)
     setEditTitle(task.title)
     setEditDescription(task.description || "")
     setEditDueDate(task.due_date || "")
-    setEditError("")
-  }
-
-  const cancelEdit = () => {
-    setIsEditing(false)
-    setEditError("")
   }
 
   const handleEditSubmit = async (e) => {
@@ -135,7 +125,6 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
       setEditError(t('errors.emptyTitle'))
       return
     }
-    if (!task) return
     try {
       await onEdit(task.id, editTitle.trim(), editDescription.trim(), editDueDate || null)
       setIsEditing(false)
@@ -146,7 +135,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
 
   const handleBackClick = () => {
     if (isEditing) {
-      cancelEdit()
+      setIsEditing(false)
       return
     }
     onClose()
@@ -160,19 +149,17 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
     if (isAnimatingToggle) return
     setIsAnimatingToggle(true)
     setVisualCompleted(completed)
-    setTimeout(() => {
-      onToggle(id, completed)
-      setTimeout(() => setIsAnimatingToggle(false), 100)
-    }, 300)
+    onToggle(id, completed)
+    setTimeout(() => setIsAnimatingToggle(false), 400)
   }
 
   return (
     <div
       className="px-4 pt-4 sm:p-6 h-full flex flex-col relative transition-colors duration-300 ease-in-out bg-gray-50 dark:bg-gray-900"
-      style={{ minHeight: 0, flex: '1 1 0%' }}
+      style={{ flex: '1 1 0%' }}
     >
       <div className="mb-4 flex justify-between items-center gap-2 flex-shrink-0">
-        {isDesktop && (
+        {isDesktop ? (
           <div className="flex items-center w-full h-10">
             <div className="relative w-40 h-10 flex items-center">
               <button
@@ -195,7 +182,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
                   isSaving={isSaving}
                   onToggle={handleToggle}
                   onEdit={handleEditSubmit}
-                  onCancel={cancelEdit}
+                  onCancel={setIsEditing.bind(null, false)}
                   onStartEdit={startEdit}
                   task={task}
                   t={t}
@@ -203,8 +190,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
               </div>
             </div>
           </div>
-        )}
-        {!isDesktop && (
+        ) : (
           <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 break-words whitespace-pre-line flex-1 min-w-0">
             {task.title}
           </h2>
@@ -217,7 +203,6 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
             key={isEditing ? 'edit-mode' : 'view-mode'}
             timeout={300}
             classNames="fade"
-            unmountOnExit
           >
             <div>
               {isEditing ? (
@@ -251,12 +236,9 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
                       id={`edit-due-date-${task.id}`}
                       type="date"
                       className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-500 focus:border-indigo-400 dark:focus:border-indigo-500 outline-none transition duration-150 ease-in-out bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-                      value={editDueDate || ""}
+                      value={editDueDate}
                       onChange={e => setEditDueDate(e.target.value)}
                       disabled={isSaving}
-                      placeholder={t('form.dateFormat')}
-                      title={t('form.dateFormat')}
-                      lang={t('dateLang') || undefined}
                     />
                   </div>
                 </form>
@@ -267,17 +249,19 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
                       {task.title}
                     </h2>
                   )}
-                  {task.description ? (
-                    <p className="text-gray-600 dark:text-gray-300 break-words">
-                      {task.description}
-                    </p>
-                  ) : (
-                    <p className={`text-gray-400 dark:text-gray-500 italic mt-2`}>{t('tasks.noDescription')}</p>
-                  )}
+                  <p
+                    className={`break-words ${
+                      task.description
+                        ? "text-gray-600 dark:text-gray-300"
+                        : "text-gray-400 dark:text-gray-500 italic mt-2"
+                    }`}
+                  >
+                    {task.description || t('tasks.noDescription')}
+                  </p>
                   {task.due_date && (
                     <div className="mt-2 animate-fadeIn">
                       <span className={`font-medium ${getDueDateColor(task.due_date)}`}>
-                        {t('form.dueDate') || "Due Date"}: {task.due_date}
+                        {t('form.dueDate')}: {task.due_date}
                       </span>
                     </div>
                   )}
@@ -298,7 +282,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
             isSaving={isSaving}
             onToggle={handleToggle}
             onEdit={handleEditSubmit}
-            onCancel={cancelEdit}
+            onCancel={setIsEditing.bind(null, false)}
             onStartEdit={startEdit}
             task={task}
             t={t}

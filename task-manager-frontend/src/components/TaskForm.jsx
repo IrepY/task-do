@@ -1,5 +1,4 @@
 import { useState } from "react"
-import PropTypes from 'prop-types'
 import { useTranslation } from "react-i18next"
 
 function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
@@ -92,13 +91,6 @@ function TaskForm({ onAdd, onCancel, isSubmitting, isDesktop }) {
       </div>
     </form>
   )
-}
-
-TaskForm.propTypes = {
-  onAdd: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  isSubmitting: PropTypes.bool,
-  isDesktop: PropTypes.bool.isRequired,
 }
 
 export default TaskForm

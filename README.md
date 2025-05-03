@@ -7,7 +7,7 @@ A projektem célja egy modern, webes feladat- és időmenedzsment alkalmazás fe
 - Több nyelv támogatása (magyar/angol).
 - Sötét/világos mód támogatása.
 
-## Használt technológiák és választásuk indoklása
+## A használt szoftvereszközök, keretrendszerek és könyvtárak kiválasztásának indoklása
 
 - **Frontend:**  
   - **React.js**: Modern, komponens-alapú felépítés.

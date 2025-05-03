@@ -42,7 +42,7 @@ A projektem célja egy modern, webes feladat- és időmenedzsment alkalmazás fe
    source venv/bin/activate
    ```
 
-4. **Backend függőségek telepítése:**  
+4. **Backend-hez szükséges modulok telepítése:**  
    ```
    pip install fastapi uvicorn
    ```

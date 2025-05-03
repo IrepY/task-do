@@ -16,24 +16,15 @@ const VIEW_TRANSITION_DURATION = 300;
 const BUTTON_TRANSITION_DURATION = 200;
 const DELETE_ANIMATION_DURATION = 300;
 
-function fadeThemeTransition() {
-  document.documentElement.classList.add('theme-transition');
-  setTimeout(() => {
-    document.documentElement.classList.remove('theme-transition');
-  }, 500);
-}
-
-const getTitleForView = (view, isDesktop, t) => {
-  const titles = {
+const getTitleForView = (view, isDesktop, t) =>
+  ({
     list: isDesktop ? t('tasks.title') : t('menu.list'),
     add: t('tasks.newTask'),
     detail: t('tasks.title'),
     profile: t('menu.profile'),
     settings: t('menu.settings'),
     about: t('menu.about'),
-  }
-  return titles[view] || 'TaskFlow'
-}
+  }[view] || 'Task-Do')
 
 function App() {
   const [tasks, setTasks] = useState([])
@@ -305,7 +296,6 @@ function App() {
                                       tasks={tasks}
                                       onDelete={deleteTask}
                                       onToggle={toggleTask}
-                                      onEdit={editTask}
                                       onTaskSelect={handleTaskSelect}
                                       deletingTaskId={deletingTaskId}
                                       togglingTaskId={togglingTaskId}
@@ -411,7 +401,6 @@ function App() {
                                     tasks={tasks}
                                     onDelete={deleteTask}
                                     onToggle={toggleTask}
-                                    onEdit={editTask}
                                     onTaskSelect={handleTaskSelect}
                                     deletingTaskId={deletingTaskId}
                                     togglingTaskId={togglingTaskId}

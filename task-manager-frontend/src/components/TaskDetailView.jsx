@@ -133,6 +133,8 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
     }
   }
 
+  const handleCancelEdit = () => setIsEditing(false)
+
   const handleBackClick = () => {
     if (isEditing) {
       setIsEditing(false)
@@ -182,7 +184,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
                   isSaving={isSaving}
                   onToggle={handleToggle}
                   onEdit={handleEditSubmit}
-                  onCancel={setIsEditing.bind(null, false)}
+                  onCancel={handleCancelEdit}
                   onStartEdit={startEdit}
                   task={task}
                   t={t}
@@ -282,7 +284,7 @@ function TaskDetailView({ task, onClose, onEdit, onToggle, isSaving, isDesktop }
             isSaving={isSaving}
             onToggle={handleToggle}
             onEdit={handleEditSubmit}
-            onCancel={setIsEditing.bind(null, false)}
+            onCancel={handleCancelEdit}
             onStartEdit={startEdit}
             task={task}
             t={t}

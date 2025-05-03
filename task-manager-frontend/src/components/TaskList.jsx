@@ -1,7 +1,7 @@
 import TaskItem from "./TaskItem"
 import { useTranslation } from 'react-i18next'
 
-function TaskList({ tasks, onDelete, onToggle, onTaskSelect, deletingTaskId, togglingTaskId, newlyAddedTaskId, isMenuOpen }) {
+function TaskList({ tasks, onDelete, onToggle, onTaskSelect, deletingTaskId, togglingTaskId, newlyAddedTaskId }) {
   const { t } = useTranslation()
   
   return tasks.length === 0 ? (
@@ -13,7 +13,7 @@ function TaskList({ tasks, onDelete, onToggle, onTaskSelect, deletingTaskId, tog
       {tasks.map(task => (
         <li
           key={task.id}
-          className={newlyAddedTaskId === task.id ? 'animate-fadeInAndGrow' : undefined}
+          className={newlyAddedTaskId === task.id && 'animate-fadeInAndGrow'}
         >
           <TaskItem
             task={task}
@@ -22,7 +22,6 @@ function TaskList({ tasks, onDelete, onToggle, onTaskSelect, deletingTaskId, tog
             onTaskSelect={onTaskSelect}
             isDeleting={deletingTaskId === task.id}
             isDisabled={deletingTaskId === task.id || togglingTaskId === task.id}
-            isMenuOpen={isMenuOpen}
           />
         </li>
       ))}

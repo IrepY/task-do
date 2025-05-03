@@ -40,15 +40,6 @@ function SettingsView({ isDesktop }) {
     }
   }, [isDarkMode])
 
-  const changeLanguage = (language) => {
-    i18n.changeLanguage(language)
-    localStorage.setItem('language', language)
-  }
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(prevMode => !prevMode);
-  }
-
   return (
     <div className={`flex-col text-gray-700 dark:text-gray-300 dark:bg-gray-900`}>
        {isDesktop && (
@@ -62,7 +53,10 @@ function SettingsView({ isDesktop }) {
 
           <div className="flex flex-col sm:flex-row gap-3">
             <button
-              onClick={() => changeLanguage('en')}
+              onClick={() => {
+                i18n.changeLanguage('en')
+                localStorage.setItem('language', 'en')
+              }}
               className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
                 currentLanguage === 'en'
                   ? 'bg-indigo-600 text-white'
@@ -78,7 +72,10 @@ function SettingsView({ isDesktop }) {
             </button>
 
             <button
-              onClick={() => changeLanguage('hu')}
+              onClick={() => {
+                i18n.changeLanguage('hu')
+                localStorage.setItem('language', 'hu')
+              }}
               className={`px-4 py-2 rounded-lg flex items-center gap-2 ${
                 currentLanguage === 'hu'
                   ? 'bg-indigo-600 text-white'
@@ -99,7 +96,7 @@ function SettingsView({ isDesktop }) {
           <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-2">{t('settings.theme')}</h3>
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500 dark:text-gray-400">{t('settings.darkMode')}</p>
-            <ThemeToggle isEnabled={isDarkMode} onToggle={toggleDarkMode} />
+            <ThemeToggle isEnabled={isDarkMode} onToggle={() => setIsDarkMode(prev => !prev)} />
           </div>
         </div>
 

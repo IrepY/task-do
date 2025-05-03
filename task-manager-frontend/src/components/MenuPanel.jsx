@@ -105,19 +105,12 @@ function MenuPanel({
 
   const baseItemClass = `text-indigo-100 dark:text-indigo-300 hover:text-white dark:hover:text-indigo-100 text-lg w-full rounded transition duration-150 ease-in-out flex items-center`;
 
-  const getActiveItemClasses = (isActive) => {
-    if (!isActive) return ''
-    return isDesktop && !isOpen
-      ? 'relative z-10 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-indigo-700 dark:after:bg-indigo-900 after:rounded-lg after:w-12 after:h-12 after:-z-10'
-      : "bg-indigo-700 dark:bg-indigo-900 text-white dark:text-indigo-100";
-  }
-
   const ids = ['list', 'profile', 'settings', 'about'];
-  const menuItems = ids.map((id, idx) => ({
-      id,
-      icon: ICON_PATHS[id],
-      label: t(`menu.${id}`),
-    }))
+  const menuItems = ids.map((id) => ({
+    id,
+    icon: ICON_PATHS[id],
+    label: t(`menu.${id}`),
+  }));
 
   return (
     <div className={panelClasses}>
@@ -160,7 +153,12 @@ function MenuPanel({
               isDesktop={isDesktop}
               baseItemClass={baseItemClass}
               itemLayoutClass={itemLayoutClass}
-              getActiveItemClasses={getActiveItemClasses}
+              getActiveItemClasses={(isActive) => {
+                if (!isActive) return ''
+                return isDesktop && !isOpen
+                  ? 'relative z-10 after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-indigo-700 dark:after:bg-indigo-900 after:rounded-lg after:w-12 after:h-12 after:-z-10'
+                  : "bg-indigo-700 dark:bg-indigo-900 text-white dark:text-indigo-100";
+              }}
               iconAnimationBase={animations.icon.base}
               iconAnimationCollapsed={animations.icon.collapsed}
               iconAnimationExpanded={animations.icon.expanded}

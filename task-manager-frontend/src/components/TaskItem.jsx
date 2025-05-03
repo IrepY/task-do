@@ -1,5 +1,17 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getDueDateColor } from "../hooks/dateFormatters";
+
+const getOverflowGradient = (isCompleted) => {
+  const dark = document.documentElement.classList.contains("dark");
+  if (dark) {
+    return isCompleted
+      ? "rgba(31, 41, 55, 0), #1f2937"
+      : "rgba(17, 24, 39, 0), #111827";
+  }
+  return isCompleted
+    ? "rgba(240, 253, 244, 0), #f0fdf4"
+    : "rgba(255, 255, 255, 0), #ffffff";
+};
 
 function TaskItem({
   task,
@@ -29,30 +41,17 @@ function TaskItem({
   useEffect(() => {
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, [task.title, task.description]);
-
-  useEffect(() => {
     const timeoutIds = [50, 150, 300, 500].map((delay) =>
       setTimeout(checkOverflow, delay)
     );
-    return () => timeoutIds.forEach(clearTimeout);
-  }, [isMenuOpen]);
+    return () => {
+      window.removeEventListener("resize", checkOverflow);
+      timeoutIds.forEach(clearTimeout);
+    };
+  }, [task.title, task.description, isMenuOpen]);
 
   const textBaseClass = "block max-w-full whitespace-nowrap overflow-hidden relative";
   const isClickable = !effectiveDisabled;
-
-  const [gradientStartColor, gradientEndColor] = useMemo(() => {
-    const dark = document.documentElement.classList.contains("dark");
-    if (dark) {
-      return isCompleted
-        ? ["#1f2937", "rgba(31, 41, 55, 0)"]
-        : ["#111827", "rgba(17, 24, 39, 0)"];
-    }
-    return isCompleted
-      ? ["#f0fdf4", "rgba(240, 253, 244, 0)"]
-      : ["#ffffff", "rgba(255, 255, 255, 0)"];
-  }, [isCompleted]);
 
   const dueDateColor = getDueDateColor(task.due_date);
 
@@ -101,7 +100,7 @@ function TaskItem({
                 <span
                   className="absolute right-0 top-0 h-full w-16 pointer-events-none"
                   style={{
-                    background: `linear-gradient(to right, ${gradientEndColor}, ${gradientStartColor})`,
+                    background: `linear-gradient(to right, ${getOverflowGradient(isCompleted)})`,
                   }}
                 />
               )}
@@ -122,7 +121,7 @@ function TaskItem({
                   <span
                     className="absolute right-0 top-0 h-full w-16 pointer-events-none"
                     style={{
-                      background: `linear-gradient(to right, ${gradientEndColor}, ${gradientStartColor})`,
+                      background: `linear-gradient(to right, ${getOverflowGradient(isCompleted)})`,
                     }}
                   />
                 )}

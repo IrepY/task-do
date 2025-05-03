@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuItem from './MenuItem'
 
@@ -22,33 +21,24 @@ const BASE_DELAYS = { icon: 50, text: 120, step: 50, textStep: 50 }
 
 const AnimatedTitle = ({ title, isVisible }) => {
   const letters = title.split('')
-  
   return (
-    <span className="inline-block overflow-hidden">
+    <span>
       {letters.map((letter, index) => (
         <span
           key={index}
-          className="inline-block transition-all duration-300 ease-out"
+          className="inline-block duration-200"
           style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible 
-              ? 'translateY(0) translateX(0)' 
+            transform: isVisible
+              ? 'translateY(0) translateX(0)'
               : 'translateY(-100%) translateX(10px)',
-            transitionDelay: isVisible 
-              ? `${index * 50}ms` 
-              : `${(letters.length - index - 1) * 40}ms`
+            transitionDelay: isVisible
+              ? `${index * 20}ms`
+              : `${(letters.length - index) * 20}ms`
           }}
-        >
-          {letter}
-        </span>
+        >{letter}</span>
       ))}
     </span>
   )
-}
-
-AnimatedTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  isVisible: PropTypes.bool.isRequired
 }
 
 function MenuPanel({
@@ -59,58 +49,48 @@ function MenuPanel({
   isDesktop,
 }) {
   const { t } = useTranslation()
-  
   const [showTitleAnimation, setShowTitleAnimation] = useState(false)
   const [wasOpen, setWasOpen] = useState(false)
 
   useEffect(() => {
     let timer;
     if (isOpen) {
-      timer = setTimeout(() => setShowTitleAnimation(true), 150); 
+      timer = setTimeout(() => setShowTitleAnimation(true), 150);
       setWasOpen(true);
     } else {
       setShowTitleAnimation(false);
       if (wasOpen) {
-        timer = setTimeout(() => setWasOpen(false), 300); 
+        timer = setTimeout(() => setWasOpen(false), 300);
       }
     }
     return () => clearTimeout(timer);
   }, [isOpen, wasOpen]);
 
-  const transitionBase = {
-    common: "transition-all ease-in-out", 
-    duration: "duration-300",
-  }
-
-  const panelBaseTransition = `${transitionBase.common} ${transitionBase.duration}`
-  
-  const itemTransition = "transition-all duration-200 ease-out"
   const animations = {
     text: {
-      base: `${itemTransition} whitespace-nowrap`, 
-      collapsed: "opacity-0 scale-90 translate-y-4", 
-      expanded: "opacity-100 scale-100 translate-y-0", 
+      base: "transition-all duration-200 ease-out whitespace-nowrap",
+      collapsed: "opacity-0 scale-90 translate-y-4",
+      expanded: "opacity-100 scale-100 translate-y-0",
     },
     icon: {
-      base: `${itemTransition}`, 
+      base: "transition-all duration-200 ease-out",
       collapsed: "hover:scale-125",
       expanded: "scale-100",
     },
-  }
+  };
 
   const layout = {
     common: "bg-indigo-600 dark:bg-indigo-800 text-white dark:text-indigo-100 flex flex-col overflow-hidden p-6 sm:p-8",
     desktop: {
       base: "h-full flex-shrink-0 relative overflow-hidden",
       width: isOpen ? 'w-64' : 'w-20',
-      transition: `${panelBaseTransition} width`, 
+      transition: "transition-all duration-300 ease-in-out width",
     },
     mobile: {
       base: `absolute inset-y-0 left-0 w-full z-30 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'}`,
-      transition: `${panelBaseTransition} transform`, 
-    },
-    header: "h-[52px]",
-  }
+      transition: "transition-all duration-300 ease-in-out transform",
+    }
+  };
 
   const panelClasses = isDesktop
     ? `${layout.common} ${layout.desktop.base} ${layout.desktop.width} ${layout.desktop.transition}`
@@ -124,38 +104,28 @@ function MenuPanel({
 
   const getActiveItemClasses = (isActive) => {
     if (!isActive) return ''
-    
     return isDesktop && !isOpen
       ? 'relative z-10 after:content-[""] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:bg-indigo-700 dark:after:bg-indigo-900 after:rounded-lg after:w-12 after:h-12 after:-z-10'
       : "bg-indigo-700 dark:bg-indigo-900 text-white dark:text-indigo-100";
   }
 
-  const menuItems = useMemo(() => {
-    const ids = ['list', 'profile', 'settings', 'about']
-    return ids.map((id, idx) => ({
+  const ids = ['list', 'profile', 'settings', 'about'];
+  const menuItems = ids.map((id, idx) => ({
       id,
       icon: ICON_PATHS[id],
       label: t(`menu.${id === 'list' ? 'tasks' : id}`),
       iconDelay: BASE_DELAYS.icon + idx * BASE_DELAYS.step,
       textDelay: BASE_DELAYS.text + idx * BASE_DELAYS.textStep,
     }))
-  }, [t])
-
-  const shouldRenderFullHeader = isOpen || !isDesktop || wasOpen;
 
   return (
     <div className={panelClasses}>
-      <div className={`flex justify-between items-center mb-8 flex-shrink-0 ${layout.header}`}>
-        {shouldRenderFullHeader ? (
+      <div className={`flex justify-between items-center mb-4 h-[52px]`}>
+        {(isOpen || !isDesktop || wasOpen) && (
           <>
             <div className="w-48 overflow-hidden">
               <h2 className="text-2xl font-bold whitespace-nowrap">
-                {isDesktop ? (
-                  <AnimatedTitle 
-                    title="Task-Do" 
-                    isVisible={showTitleAnimation} 
-                  />
-                ) : t('menu.menuTitle')}
+                  <AnimatedTitle title="Task-Do" isVisible={showTitleAnimation}/>
               </h2>
             </div>
             {!isDesktop && (
@@ -170,14 +140,15 @@ function MenuPanel({
               </button>
             )}
           </>
-        ) : ( null )
-        }
+        )}
       </div>
 
-      <nav className="flex flex-col gap-2 flex-grow">
+      <nav className="flex flex-col gap-2">
         {menuItems.map((item, index) => (
           <React.Fragment key={item.id}>
-            {index === 1 && <hr className="border-indigo-500 dark:border-indigo-700 my-2" />}
+            {index === 1 && (
+              <hr className="border-indigo-500 dark:border-indigo-500"/>
+            )}
             <MenuItem
               id={item.id}
               icon={item.icon}
@@ -203,14 +174,6 @@ function MenuPanel({
       </nav>
     </div>
   )
-}
-
-MenuPanel.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  selectedItem: PropTypes.string,
-  onSelectItem: PropTypes.func.isRequired,
-  isDesktop: PropTypes.bool.isRequired,
 }
 
 export default MenuPanel

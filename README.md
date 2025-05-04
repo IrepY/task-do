@@ -36,8 +36,10 @@ A projektem célja egy modern, webes feladat- és időmenedzsment alkalmazás fe
 3. **Python virtuális környezet létrehozása és aktiválása:**  
    ```
    python -m venv venv
-   # Windows:
-   venv\Scripts\activate.bat
+   # Windows: (Powershell-ben)
+   venv\Scripts\activate.ps1
+   Amennyiben ez nem működik, először ezt kell futtatni egy adminisztrátor joggal rendelkező powershellben:
+   Set-ExecutionPolicy RemoteSigned -> A (Yes to All)
    # Linux/Mac:
    source venv/bin/activate
    ```

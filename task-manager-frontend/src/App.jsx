@@ -300,7 +300,7 @@ function App() {
                                       deletingTaskId={deletingTaskId}
                                       togglingTaskId={togglingTaskId}
                                       newlyAddedTaskId={newlyAddedTaskId}
-                                      isMenuOpen={isMenuOpen} 
+                                      isMenuOpen={isMenuOpen ? isMenuOpen : undefined}
                                     />
                                   </div>
                                 </div>
@@ -405,7 +405,7 @@ function App() {
                                     deletingTaskId={deletingTaskId}
                                     togglingTaskId={togglingTaskId}
                                     newlyAddedTaskId={newlyAddedTaskId}
-                                    isMenuOpen={false} 
+                                    isMenuOpen={false ? false : undefined}
                                   />
                                 </div>
                               </div>
